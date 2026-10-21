@@ -1,15 +1,119 @@
+/* Layout principal: habitación a la izquierda, panel de control a la derecha */
 :host {
-    display: flex;
-    flex-direction: flex;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-}
-div {
-    background-color: yellow;
-    flex: 0 0 30%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 24px;
+  height: 100vh;
+  padding: 24px;
 }
 
-app-habitacion {
-    flex: 1;
+app-habitacion-component {
+  display: block;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Panel de control */
+:host > div {
+  flex: 0 0 320px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+:host > div > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+/* Botón conectar / desconectar */
+button {
+  width: 100%;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--accent);
+  color: #0b1220;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover {
+  background: var(--accent-hover);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:focus-visible {
+  outline: 3px solid rgba(56, 189, 248, 0.5);
+  outline-offset: 2px;
+}
+
+/* Leyenda de estado de la corriente */
+.boton-leyenda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.boton-leyenda::before {
+  content: "";
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--off);
+  box-shadow: 0 0 8px var(--off);
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.boton-leyenda.conectada::before {
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok);
+}
+
+.boton-leyenda.conectada {
+  color: var(--text);
+}
+
+/* Móvil / pantallas estrechas */
+@media (max-width: 800px) {
+  :host {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  app-habitacion-component {
+    min-height: 420px;
+  }
+
+  :host > div {
+    flex-basis: auto;
+    align-self: stretch;
+  }
 }
