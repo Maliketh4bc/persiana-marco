@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { Input } from '@angular/core';
 
 @Component({
@@ -8,6 +8,8 @@ import { Input } from '@angular/core';
   styleUrl: './persiana-component.component.css'
 })
 export class PersianaComponentComponent {
+
+  hayCorriente = input<boolean>(false);
 
   abierta = false;
 

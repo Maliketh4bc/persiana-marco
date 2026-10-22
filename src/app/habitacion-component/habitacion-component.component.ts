@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PersianaComponentComponent } from './persiana-component/persiana-component.component';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-habitacion-component',
@@ -8,5 +9,5 @@ import { PersianaComponentComponent } from './persiana-component/persiana-compon
   styleUrl: './habitacion-component.component.css'
 })
 export class HabitacionComponentComponent {
-
+  hayCorriente = input<boolean>(false);
 }

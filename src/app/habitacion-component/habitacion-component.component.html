@@ -1,2 +1,3 @@
-<p>habitacion-component works!</p>
-<app-persiana-component></app-persiana-component>
+<h2>HABITACIÓN</h2>
+<p>Corriente: {{ hayCorriente() ? 'ON' : 'OFF' }}</p>
+<app-persiana-component [hayCorriente]="hayCorriente()"></app-persiana-component>
