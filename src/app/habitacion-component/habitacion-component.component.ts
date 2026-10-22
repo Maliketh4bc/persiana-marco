@@ -9,6 +9,7 @@ import { input, output } from '@angular/core';
   styleUrl: './habitacion-component.component.css'
 })
 export class HabitacionComponentComponent {
+  id = input<number>(0);
   hayCorriente = input<boolean>(false);
   estadoCambiado = output<boolean>();
 

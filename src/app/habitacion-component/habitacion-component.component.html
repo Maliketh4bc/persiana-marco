@@ -1,5 +1,6 @@
 <h2>HABITACIÓN</h2>
 <p>Corriente: {{ hayCorriente() ? 'ON' : 'OFF' }}</p>
-<app-persiana-component 
+<app-persiana-component
+[id]="id()" 
 [hayCorriente]="hayCorriente()"
 (estadoCambiado)="reenviarEstado($event)"></app-persiana-component>

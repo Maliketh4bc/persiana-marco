@@ -8,6 +8,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class PersianaComponentComponent {
 
+  id = input<number>(0);
   hayCorriente = input<boolean>(false);
   estadoCambiado = output<boolean>();
 

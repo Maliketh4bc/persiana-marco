@@ -1,6 +1,6 @@
-
-    <div>
-        <h2>PERSIANA</h2>
-        <p>Estado: {{ abierta ? 'ABIERTA' : 'CERRADA' }}</p>
-        <button (click)="cambiarEstado()" [disabled]="!hayCorriente()">Subir / Bajar</button>
-    </div>
+<div>
+    <h2>PERSIANA</h2>
+    <p>Persiana id.: #{{ id() }}</p>
+    <p>Estado: {{ abierta ? 'ABIERTA' : 'CERRADA' }}</p>
+    <button (click)="cambiarEstado()" [disabled]="!hayCorriente()">Subir / Bajar</button>
+</div>
