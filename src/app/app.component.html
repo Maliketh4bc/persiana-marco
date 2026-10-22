@@ -2,17 +2,21 @@
 
 <div>
     <div>
-        <h1>{{ title }}</h1>
+        <h1>CONTROL DE VIVIENDA</h1>
 
         <button (click)="onConectDisconect()">
             {{ corrienteVivienda ? 'Desconectar' : 'Conectar' }} corriente vivienda
         </button>
         <button (click)="onConectDisconectHabitacion()">
-            {{ corrienteHabitacion ? 'Desconectar' : 'Conectar' }} corriente general
+            {{ corrienteHabitacion ? 'Desconectar' : 'Conectar' }} corriente Hab #1
         </button>
     </div>
+
     <div class="boton-leyenda" [class.conectada]="corrienteVivienda">
-        <span>Corriente vivienda: {{ this.corrienteVivienda ? 
-        'CONECTADA': 'DESCONECTADA'}}</span>
+        <span>Corriente general: {{ corrienteVivienda ? 'CONECTADA' : 'DESCONECTADA' }}</span>
+    </div>
+
+    <div class="boton-leyenda" [class.conectada]="corrienteHabitacion">
+        <span>Corriente Hab #1: {{ corrienteHabitacion ? 'CONECTADA' : 'DESCONECTADA' }}</span>
     </div>
 </div>
