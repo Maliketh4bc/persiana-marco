@@ -1,5 +1,4 @@
-import { Component, input } from '@angular/core';
-import { Input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-persiana-component',
@@ -10,10 +9,12 @@ import { Input } from '@angular/core';
 export class PersianaComponentComponent {
 
   hayCorriente = input<boolean>(false);
+  estadoCambiado = output<boolean>();
 
   abierta = false;
 
   cambiarEstado() {
     this.abierta = !this.abierta;
+    this.estadoCambiado.emit(this.abierta);
   }
 }

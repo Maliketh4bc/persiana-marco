@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { PersianaComponentComponent } from './persiana-component/persiana-component.component';
-import { Input } from '@angular/core';
+import { input, output } from '@angular/core';
 
 @Component({
   selector: 'app-habitacion-component',
@@ -10,4 +10,9 @@ import { Input } from '@angular/core';
 })
 export class HabitacionComponentComponent {
   hayCorriente = input<boolean>(false);
+  estadoCambiado = output<boolean>();
+
+  reenviarEstado(abierta: boolean) {
+    this.estadoCambiado.emit(abierta);
+  }
 }

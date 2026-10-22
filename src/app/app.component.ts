@@ -12,14 +12,18 @@ export class AppComponent {
   title = 'persiana-marco';
   corrienteVivienda = false;
   corrienteHabitacion = false;
+  estadoPersiana = false;
 
   onConectDisconectHabitacion() {
     this.corrienteHabitacion = !this.corrienteHabitacion;
   }
-  
+
   onConectDisconect() {
     this.corrienteVivienda = !this.corrienteVivienda;
   }
-
+  
+  onEstadoPersiana(abierta: boolean) {
+    this.estadoPersiana = abierta;
+  }
 }
 

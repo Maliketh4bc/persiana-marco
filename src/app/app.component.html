@@ -1,4 +1,6 @@
-<app-habitacion-component [hayCorriente]="corrienteVivienda && corrienteHabitacion"></app-habitacion-component>
+<app-habitacion-component 
+[hayCorriente]="corrienteVivienda && corrienteHabitacion"
+(estadoCambiado)="onEstadoPersiana($event)"></app-habitacion-component>
 
 <div>
     <div>
@@ -19,4 +21,5 @@
     <div class="boton-leyenda" [class.conectada]="corrienteHabitacion">
         <span>Corriente Hab #1: {{ corrienteHabitacion ? 'CONECTADA' : 'DESCONECTADA' }}</span>
     </div>
+    <p>Estado recibido: PERSIANA {{ estadoPersiana ? 'ABIERTA' : 'CERRADA' }}</p>
 </div>
