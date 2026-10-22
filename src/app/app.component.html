@@ -1,17 +1,20 @@
 <app-habitacion-component
-[id]="1" 
-[hayCorriente]="corrienteVivienda && corrienteHabitacion"
-(estadoCambiado)="onEstadoPersiana($event)"></app-habitacion-component>
+    [id]="1"
+    [hayCorriente]="corrienteVivienda && corrienteHabitacion"
+    (estadoCambiado)="onEstadoPersiana($event)">
+</app-habitacion-component>
 
-<div>
-    <div>
-        <h1>CONTROL DE VIVIENDA</h1>
+<div class="cuadro">
+    <h1>Control de vivienda</h1>
 
-        <button (click)="onConectDisconect()">
-            {{ corrienteVivienda ? 'Desconectar' : 'Conectar' }} corriente vivienda
+    <div class="carril">
+        <button class="breaker general" [class.on]="corrienteVivienda" (click)="onConectDisconect()">
+            <span class="palanca" aria-hidden="true"></span>
+            <span class="texto">{{ corrienteVivienda ? 'Desconectar' : 'Conectar' }} corriente vivienda</span>
         </button>
-        <button (click)="onConectDisconectHabitacion()">
-            {{ corrienteHabitacion ? 'Desconectar' : 'Conectar' }} corriente Hab #1
+        <button class="breaker" [class.on]="corrienteHabitacion" (click)="onConectDisconectHabitacion()">
+            <span class="palanca" aria-hidden="true"></span>
+            <span class="texto">{{ corrienteHabitacion ? 'Desconectar' : 'Conectar' }} corriente Hab #1</span>
         </button>
     </div>
 
@@ -22,5 +25,8 @@
     <div class="boton-leyenda" [class.conectada]="corrienteHabitacion">
         <span>Corriente Hab #1: {{ corrienteHabitacion ? 'CONECTADA' : 'DESCONECTADA' }}</span>
     </div>
-    <p>Estado recibido: PERSIANA {{ estadoPersiana ? 'ABIERTA' : 'CERRADA' }}</p>
+
+    <p class="estado-recibido" [class.abierta]="estadoPersiana">
+        Estado recibido: PERSIANA {{ estadoPersiana ? 'ABIERTA' : 'CERRADA' }}
+    </p>
 </div>

@@ -1,6 +1,15 @@
-<h2>HABITACIÓN</h2>
-<p>Corriente: {{ hayCorriente() ? 'ON' : 'OFF' }}</p>
-<app-persiana-component
-[id]="id()" 
-[hayCorriente]="hayCorriente()"
-(estadoCambiado)="reenviarEstado($event)"></app-persiana-component>
+<section class="habitacion" [class.con-corriente]="hayCorriente()">
+    <div class="lampara" aria-hidden="true"></div>
+
+    <header class="placa">
+        <h2>Habitación</h2>
+        <p>Habitación id.: #{{ id() }}</p>
+        <p class="corriente">Corriente: {{ hayCorriente() ? 'ON' : 'OFF' }}</p>
+    </header>
+
+    <app-persiana-component
+        [id]="id()"
+        [hayCorriente]="hayCorriente()"
+        (estadoCambiado)="reenviarEstado($event)">
+    </app-persiana-component>
+</section>

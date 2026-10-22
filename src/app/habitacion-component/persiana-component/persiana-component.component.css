@@ -1,43 +1,301 @@
-/* Ventana con persiana.
-   El nivel de cierre se controla con la variable --cerrada (0% = abierta, 100% = cerrada).
-   Ejemplo desde Angular: [style.--cerrada]="'40%'" */
+/* =========================================================
+   PERSIANA: la pieza estrella.
+   Una ventana con el cielo detrás y una persiana de lamas
+   de aluminio que sube y baja de verdad.
+   ========================================================= */
 :host {
-  position: relative;
-  display: grid;
-  place-items: center;
-  width: min(240px, 60%);
-  aspect-ratio: 3 / 4;
-  background: linear-gradient(to bottom, #7dd3fc, #e0f2fe);
-  border: 10px solid #e2e8f0;
-  border-radius: 6px;
-  box-shadow: 0 0 0 2px #94a3b8, 0 12px 28px rgba(0, 0, 0, 0.4);
-  overflow: hidden;
+  display: block;
 }
 
-/* Lamas de la persiana */
-:host::before {
-  content: "";
+.persiana {
+  display: grid;
+  gap: 22px;
+}
+
+/* ---------- Ventana ---------- */
+.ventana-wrap {
+  position: relative;
+}
+
+/* Resplandor en la pared cuando entra luz */
+.ventana-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -22% -26%;
+  z-index: -1;
+  background: radial-gradient(ellipse at 50% 55%, rgb(var(--luz) / 0.5), transparent 62%);
+  opacity: 0;
+  transition: opacity 1.2s ease 0.5s;
+}
+
+/* Haz de luz que cae hacia la habitación */
+.ventana-wrap::after {
+  content: '';
+  position: absolute;
+  top: calc(100% - 14px);
+  left: 6%;
+  width: 118%;
+  height: 300px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgb(var(--luz) / 0.42), transparent 85%);
+  clip-path: polygon(0 0, 76% 0, 100% 100%, 26% 100%);
+  filter: blur(6px);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 1.2s ease 0.6s;
+}
+
+.abierta .ventana-wrap::before,
+.abierta .ventana-wrap::after {
+  opacity: 1;
+}
+
+.ventana {
+  position: relative;
+  aspect-ratio: 4 / 3.3;
+  overflow: hidden;
+  border: 14px solid var(--marco);
+  border-radius: 3px;
+  background: var(--cielo-bajo);
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.15),
+    0 0 0 1px rgb(0 0 0 / 0.08),
+    0 18px 30px -16px rgb(0 0 0 / 0.5);
+}
+
+/* Parteluz central y reflejo del cristal, por delante de todo */
+.ventana::before,
+.ventana::after {
+  content: '';
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.ventana::before {
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 10px;
+  translate: -50% 0;
+  background: var(--marco);
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.1);
+}
+
+.ventana::after {
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgb(255 255 255 / 0.16) 38%, transparent 46%,
+    transparent 60%, rgb(255 255 255 / 0.1) 64%, transparent 68%);
+}
+
+/* ---------- El paisaje de fuera ---------- */
+.exterior {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 72% 30%, var(--astro) 0 22px, transparent 23px),
+    radial-gradient(circle at 72% 30%, rgb(var(--luz) / 0.55), transparent 130px),
+    var(--estrellas),
+    linear-gradient(to bottom, var(--cielo-alto), var(--cielo-bajo) 75%);
+}
+
+/* Colina */
+.exterior::before {
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  bottom: -30%;
+  height: 55%;
+  border-radius: 50%;
+  background: var(--colina);
+}
+
+/* Casas encaladas con un campanario, recortadas con clip-path */
+.exterior::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 34%;
+  background:
+    linear-gradient(to bottom, transparent 70%, rgb(0 0 0 / 0.08)),
+    var(--casas);
+  clip-path: polygon(
+    0 100%, 0 52%, 9% 52%, 9% 40%, 20% 40%, 20% 58%, 27% 58%, 27% 30%,
+    31% 30%, 31% 6%, 33% 0, 35% 6%, 35% 30%, 39% 30%, 39% 48%, 52% 48%,
+    52% 36%, 61% 36%, 61% 56%, 72% 56%, 72% 44%, 84% 44%, 84% 60%,
+    92% 60%, 92% 46%, 100% 46%, 100% 100%
+  );
+}
+
+/* ---------- Lamas de la persiana ---------- */
+.lamas {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  /* Cada lama: brillo arriba, sombra abajo y una rendija de luz */
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--aluminio-claro) 0,
+    var(--aluminio) 11px,
+    var(--aluminio-oscuro) 15px,
+    rgb(var(--luz) / 0.7) 15px,
+    rgb(var(--luz) / 0.7) 16px
+  );
+  box-shadow: 0 6px 10px rgb(0 0 0 / 0.35);
+  transition: translate 1.9s cubic-bezier(0.45, 0.05, 0.25, 1);
+}
+
+/* Lama final, más gruesa, con su tirador */
+.lamas::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 12px;
+  background: linear-gradient(var(--aluminio), var(--aluminio-oscuro));
+  border-top: 1px solid rgb(255 255 255 / 0.3);
+}
+
+.abierta .lamas {
+  translate: 0 -88%;
+}
+
+/* Cajón donde se enrolla */
+.cajon {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: var(--cerrada, 60%);
-  background: repeating-linear-gradient(
-    to bottom,
-    #cbd5e1 0 14px,
-    #94a3b8 14px 18px
-  );
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
-  transition: height 0.6s ease;
+  height: 12%;
+  z-index: 2;
+  background: linear-gradient(var(--aluminio-claro), var(--aluminio-oscuro));
+  border-bottom: 2px solid rgb(0 0 0 / 0.25);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 0.25);
 }
 
-p {
+/* ---------- Pulsador de pared y datos ---------- */
+.ficha {
   position: relative;
-  z-index: 1;
-  margin: 0;
-  padding: 4px 10px;
-  background: rgba(15, 23, 42, 0.75);
-  border-radius: 999px;
-  color: var(--text);
-  font-size: 0.8rem;
+  z-index: 6;           /* por encima del haz de luz para que el texto se lea */
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.pulsador {
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  width: 92px;
+  height: 92px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--modulo);
+  color: #2a3036;
+  font-family: var(--fuente-rotulo);
+  font-weight: 600;
+  font-size: 1rem;
+  /* Marco exterior de la placa + tecla interior */
+  box-shadow:
+    inset 0 0 0 7px var(--modulo),
+    inset 0 0 0 8px rgb(0 0 0 / 0.1),
+    inset 0 -6px 10px rgb(0 0 0 / 0.07),
+    0 2px 0 rgb(0 0 0 / 0.15),
+    0 10px 18px -10px rgb(0 0 0 / 0.55);
+  cursor: pointer;
+  transition: translate 0.1s, box-shadow 0.1s, opacity 0.3s;
+}
+
+/* Flecha: apunta hacia donde se va a mover */
+.pulsador::before {
+  content: '';
+  order: -1;
+  width: 22px;
+  height: 13px;
+  background: currentColor;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  transition: rotate 0.3s ease;
+}
+
+.abierta .pulsador::before {
+  rotate: 180deg;
+}
+
+/* Piloto pequeño: verde si hay corriente */
+.pulsador::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--led-on);
+  box-shadow: 0 0 6px var(--led-on);
+}
+
+.pulsador:hover:not(:disabled) {
+  translate: 0 -1px;
+}
+
+.pulsador:active:not(:disabled) {
+  translate: 0 2px;
+  box-shadow:
+    inset 0 0 0 7px var(--modulo),
+    inset 0 0 0 8px rgb(0 0 0 / 0.12),
+    inset 0 4px 10px rgb(0 0 0 / 0.12),
+    0 1px 0 rgb(0 0 0 / 0.15);
+}
+
+.pulsador:focus-visible {
+  outline: 3px solid var(--cobalto);
+  outline-offset: 4px;
+}
+
+.pulsador:disabled {
+  cursor: not-allowed;
+  color: #9aa1a7;
+}
+
+.pulsador:disabled::after {
+  background: #b5b9bc;
+  box-shadow: none;
+}
+
+.datos {
+  display: grid;
+  gap: 2px;
+}
+
+.datos h2 {
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.datos p {
+  color: var(--tinta-suave);
+}
+
+.datos .estado {
+  color: var(--tinta);
+  font-weight: 600;
+}
+
+/* El aviso solo aparece cuando el pulsador está deshabilitado */
+.aviso {
+  display: none;
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.ficha:has(.pulsador:disabled) .aviso {
+  display: block;
 }

@@ -1,17 +1,92 @@
-/* Estilos globales: variables de diseño y reset básico */
+/* =========================================================
+   ESTILOS GLOBALES
+   Paleta inspirada en una casa andaluza: pared de yeso,
+   zócalo de azulejo cobalto, cuadro eléctrico de plástico
+   blanco y persiana de aluminio.
+   Las variables se heredan dentro de todos los componentes.
+   ========================================================= */
+
 :root {
-  --bg: #0f172a;
-  --surface: #1e293b;
-  --surface-2: #273449;
-  --border: #334155;
-  --text: #e2e8f0;
-  --muted: #94a3b8;
-  --accent: #38bdf8;
-  --accent-hover: #7dd3fc;
-  --ok: #22c55e;
-  --off: #ef4444;
-  --radius: 16px;
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  color-scheme: light dark;
+
+  /* Casa */
+  --fondo: #b9c3bb;
+  --pared: #dfe4dc;
+  --pared-sombra: #c9d0c6;
+  --cobalto: #2c5a88;
+  --azulejo: #f2f4f1;
+
+  /* Cuadro eléctrico */
+  --cuadro: #f4f5f2;
+  --cuadro-borde: #c6cac4;
+  --modulo: #fbfbf8;
+  --carril: #9aa2a8;
+
+  /* Texto */
+  --tinta: #242a30;
+  --tinta-suave: #5a636b;
+
+  /* Persiana y ventana */
+  --marco: #f7f7f4;
+  --aluminio-claro: #ced5da;
+  --aluminio: #aab4bc;
+  --aluminio-oscuro: #78848e;
+
+  /* Exterior (día) */
+  --cielo-alto: #6fb6e6;
+  --cielo-bajo: #d8eef8;
+  --astro: #ffd45e;
+  --colina: #9db58f;
+  --casas: #fbfaf5;
+  --luz: 255 222 140;          /* RGB sin comas para usar con rgb(var(--luz) / .5) */
+  --estrellas: linear-gradient(transparent, transparent);   /* de día no hay */
+
+  /* Indicadores */
+  --led-on: #1fae6b;
+  --led-off: #d9443a;
+
+  /* Tipografía */
+  --fuente: 'Barlow', system-ui, sans-serif;
+  --fuente-rotulo: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+}
+
+/* Modo oscuro: es de noche en la casa */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #14181b;
+    --pared: #2b3236;
+    --pared-sombra: #232a2d;
+    --cobalto: #3b6c9f;
+    --azulejo: #8e9aa6;
+
+    --cuadro: #20262a;
+    --cuadro-borde: #384046;
+    --modulo: #e9ebe7;
+    --carril: #59626a;
+
+    --tinta: #e7eaec;
+    --tinta-suave: #9aa4ac;
+
+    --marco: #3d464c;
+    --aluminio-claro: #8d98a1;
+    --aluminio: #6e7a84;
+    --aluminio-oscuro: #4b555e;
+
+    --cielo-alto: #08142b;
+    --cielo-bajo: #22365a;
+    --astro: #eef1f6;
+    --colina: #1b283b;
+    --casas: #3a4762;
+    --luz: 176 196 240;
+    --estrellas:
+      radial-gradient(circle at 12% 18%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 28% 9%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 44% 26%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 58% 12%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 86% 16%, #fff 0 1.5px, transparent 2.5px),
+      radial-gradient(circle at 92% 38%, #fff 0 1px, transparent 2px),
+      radial-gradient(circle at 20% 40%, #fff 0 1px, transparent 2px);
+  }
 }
 
 *,
@@ -22,17 +97,41 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
 body {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family: var(--fuente);
+  font-size: 1rem;
+  line-height: 1.45;
+  background: var(--fondo);
+  color: var(--tinta);
   -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2 {
+  font-family: var(--fuente-rotulo);
+  line-height: 1.1;
+  margin: 0;
+}
+
+p {
+  margin: 0;
 }
 
 button {
   font: inherit;
+  color: inherit;
+}
+
+/* Quien prefiera menos movimiento: transiciones casi instantáneas */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
 }

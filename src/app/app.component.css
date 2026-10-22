@@ -1,119 +1,231 @@
-/* Layout principal: habitación a la izquierda, panel de control a la derecha */
+/* =========================================================
+   APP: la habitación a la izquierda y el cuadro eléctrico
+   a la derecha, como si estuviera colgado en el pasillo.
+   ========================================================= */
 :host {
-  display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 24px;
-  height: 100vh;
-  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 28px;
+  min-height: 100vh;
+  padding: 28px;
 }
 
 app-habitacion-component {
   display: block;
-  flex: 1;
   min-width: 0;
 }
 
-/* Panel de control */
-:host > div {
-  flex: 0 0 320px;
+/* ---------- El cuadro (caja de plástico) ---------- */
+.cuadro {
   align-self: center;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 28px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-}
-
-:host > div > div:first-child {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  gap: 14px;
+  padding: 26px 24px 24px;
+  background: var(--cuadro);
+  border: 1px solid var(--cuadro-borde);
+  border-radius: 10px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.5),
+    0 1px 0 var(--cuadro-borde),
+    0 24px 40px -24px rgb(0 0 0 / 0.45);
 }
 
 h1 {
-  margin: 0;
-  font-size: 1.25rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  margin-bottom: 4px;
 }
 
-/* Botón conectar / desconectar */
-button {
-  width: 100%;
-  padding: 12px 16px;
+/* ---------- Carril DIN donde van los magnetotérmicos ---------- */
+.carril {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  padding: 16px 12px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  background: rgb(0 0 0 / 0.06);
+  box-shadow: inset 0 2px 6px rgb(0 0 0 / 0.12);
+}
+
+/* La barra metálica que se ve por detrás */
+.carril::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 22px;
+  translate: 0 -50%;
+  background: linear-gradient(var(--carril), color-mix(in srgb, var(--carril) 70%, black));
+  opacity: 0.55;
+}
+
+/* ---------- Cada botón es un interruptor del cuadro ---------- */
+.breaker {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-height: 176px;
+  padding: 16px 6px 12px;
   border: 0;
-  border-radius: 12px;
-  background: var(--accent);
-  color: #0b1220;
-  font-weight: 600;
+  border-radius: 4px;
+  background: linear-gradient(var(--modulo), color-mix(in srgb, var(--modulo) 88%, black));
+  color: #2a3036;               /* el módulo siempre es blanco, también de noche */
+  box-shadow:
+    inset 0 0 0 1px rgb(0 0 0 / 0.12),
+    0 2px 0 rgb(0 0 0 / 0.18),
+    0 6px 12px -6px rgb(0 0 0 / 0.4);
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
 }
 
-button:hover {
-  background: var(--accent-hover);
+/* El general es un módulo doble, como un IGA de verdad */
+.breaker.general {
+  flex: 1.7;
 }
 
-button:active {
-  transform: scale(0.98);
+/* Ventanita de estado: roja apagado, verde encendido */
+.breaker::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 10px;
+  height: 6px;
+  border-radius: 1px;
+  background: var(--led-off);
+  transition: background 0.2s;
 }
 
-button:focus-visible {
-  outline: 3px solid rgba(56, 189, 248, 0.5);
-  outline-offset: 2px;
+.breaker.on::before {
+  background: var(--led-on);
 }
 
-/* Leyenda de estado de la corriente */
+/* Ranura de la palanca */
+.palanca {
+  position: relative;
+  width: 34px;
+  height: 70px;
+  border-radius: 6px;
+  background: #2b3035;
+  box-shadow: inset 0 3px 6px rgb(0 0 0 / 0.6);
+}
+
+/* La palanca en sí: abajo = apagado, arriba = encendido */
+.palanca::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 34px;
+  height: 32px;
+  border-radius: 4px;
+  background: linear-gradient(#4a5057, #24282d);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.25),
+    0 3px 4px rgb(0 0 0 / 0.5);
+  transition: top 0.22s cubic-bezier(0.5, 1.8, 0.5, 1);
+}
+
+.general .palanca::before {
+  background: linear-gradient(#3f74ab, #22476e);
+}
+
+.breaker.on .palanca::before {
+  top: 4px;
+}
+
+.texto {
+  font-family: var(--fuente-rotulo);
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.breaker:hover .palanca::before {
+  filter: brightness(1.2);
+}
+
+.breaker:active {
+  translate: 0 1px;
+}
+
+.breaker:focus-visible {
+  outline: 3px solid var(--cobalto);
+  outline-offset: 3px;
+}
+
+/* ---------- Pilotos de corriente ---------- */
 .boton-leyenda {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 14px;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  color: var(--muted);
-  font-size: 0.9rem;
+  gap: 12px;
+  padding: 10px 2px;
+  border-top: 1px solid var(--cuadro-borde);
+  font-family: var(--fuente-rotulo);
+  font-weight: 500;
+  font-size: 1.05rem;
+  color: var(--tinta-suave);
+  transition: color 0.3s;
 }
 
 .boton-leyenda::before {
-  content: "";
+  content: '';
   flex: none;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: var(--off);
-  box-shadow: 0 0 8px var(--off);
+  background: color-mix(in srgb, var(--led-off) 85%, black);
+  box-shadow: inset 0 -2px 3px rgb(0 0 0 / 0.35);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
-.boton-leyenda.conectada::before {
-  background: var(--ok);
-  box-shadow: 0 0 8px var(--ok);
-}
-
 .boton-leyenda.conectada {
-  color: var(--text);
+  color: var(--tinta);
 }
 
-/* Móvil / pantallas estrechas */
-@media (max-width: 800px) {
+.boton-leyenda.conectada::before {
+  background: var(--led-on);
+  box-shadow:
+    inset 0 -2px 3px rgb(0 0 0 / 0.2),
+    0 0 10px var(--led-on);
+}
+
+/* ---------- Pantalla con lo que avisa la persiana ---------- */
+.estado-recibido {
+  margin-top: 4px;
+  padding: 14px 16px;
+  border-radius: 6px;
+  background: #1c2226;
+  color: #b8c2c9;
+  font-family: var(--fuente-rotulo);
+  font-weight: 600;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  box-shadow: inset 0 2px 8px rgb(0 0 0 / 0.6);
+  transition: color 0.4s;
+}
+
+.estado-recibido.abierta {
+  color: rgb(var(--luz));
+  text-shadow: 0 0 12px rgb(var(--luz) / 0.55);
+}
+
+/* ---------- Pantallas estrechas: una columna ---------- */
+@media (max-width: 860px) {
   :host {
-    flex-direction: column;
-    height: auto;
-    min-height: 100vh;
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 20px;
+    align-content: start;
   }
 
-  app-habitacion-component {
-    min-height: 420px;
-  }
-
-  :host > div {
-    flex-basis: auto;
-    align-self: stretch;
+  .cuadro {
+    align-self: start;
   }
 }

@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { PersianaComponentComponent } from './persiana-component/persiana-component.component';
-import { input, output } from '@angular/core';
 
 @Component({
   selector: 'app-habitacion-component',

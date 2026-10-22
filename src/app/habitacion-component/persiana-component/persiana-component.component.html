@@ -1,6 +1,21 @@
-<div>
-    <h2>PERSIANA</h2>
-    <p>Persiana id.: #{{ id() }}</p>
-    <p>Estado: {{ abierta ? 'ABIERTA' : 'CERRADA' }}</p>
-    <button (click)="cambiarEstado()" [disabled]="!hayCorriente()">Subir / Bajar</button>
+<div class="persiana" [class.abierta]="abierta">
+    <div class="ventana-wrap" aria-hidden="true">
+        <div class="ventana">
+            <div class="exterior"></div>
+            <div class="lamas"></div>
+            <div class="cajon"></div>
+        </div>
+    </div>
+
+    <div class="ficha">
+        <button class="pulsador" (click)="cambiarEstado()" [disabled]="!hayCorriente()">
+            {{ abierta ? 'Bajar' : 'Subir' }}
+        </button>
+        <div class="datos">
+            <h2>Persiana</h2>
+            <p>Persiana id.: #{{ id() }}</p>
+            <p class="estado">Estado: {{ abierta ? 'ABIERTA' : 'CERRADA' }}</p>
+            <p class="aviso">Sin corriente. Conecta la vivienda y la habitación para moverla.</p>
+        </div>
+    </div>
 </div>
