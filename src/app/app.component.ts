@@ -11,17 +11,14 @@ export class AppComponent {
 
   title = 'persiana-marco';
   corrienteVivienda = false;
+  corrienteHabitacion = false;
 
-  onConectDisconect(event: Event) {
-    let conDes = event.target as HTMLButtonElement;
-
-    if(!this.corrienteVivienda){
-      this.corrienteVivienda = true;
-      conDes.innerText = 'Desconectar';
-    }else{
-      this.corrienteVivienda = false;
-      conDes.innerText = 'Conectar';
-    }
+  onConectDisconectHabitacion() {
+    this.corrienteHabitacion = !this.corrienteHabitacion;
+  }
+  
+  onConectDisconect() {
+    this.corrienteVivienda = !this.corrienteVivienda;
   }
 
 }

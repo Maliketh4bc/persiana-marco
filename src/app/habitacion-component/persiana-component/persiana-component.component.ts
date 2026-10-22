@@ -9,17 +9,9 @@ import { Input } from '@angular/core';
 })
 export class PersianaComponentComponent {
 
-  estado = false;
+  abierta = false;
 
-  cambiarEstado(event: Event) {
-    let conEs = event.target as HTMLButtonElement;
-    
-    if(!this.estado){
-      this.estado = true;
-      conEs.innerText = 'ABIERTA';
-    }else{
-      this.estado = false;
-      conEs.innerText = 'CERRADA';
-    }
+  cambiarEstado() {
+    this.abierta = !this.abierta;
   }
 }

@@ -4,7 +4,12 @@
     <div>
         <h1>{{ title }}</h1>
 
-        <button (click)="onConectDisconect($event)">Conectar</button>
+        <button (click)="onConectDisconect()">
+            {{ corrienteVivienda ? 'Desconectar' : 'Conectar' }} corriente vivienda
+        </button>
+        <button (click)="onConectDisconectHabitacion()">
+            {{ corrienteHabitacion ? 'Desconectar' : 'Conectar' }} corriente general
+        </button>
     </div>
     <div class="boton-leyenda" [class.conectada]="corrienteVivienda">
         <span>Corriente vivienda: {{ this.corrienteVivienda ? 
